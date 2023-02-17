@@ -1,0 +1,132 @@
+{% extends 'admin_index.html' %}
+
+{% block menus %}
+    <aside class="menu">
+        <p class="menu-label">
+            个人中心
+        </p>
+        <ul class="menu-list">
+            <li><a class="{% if request.path == '/user/' %}is-active{% endif %}"
+                   href="{{ url_for('auth.userinfo') }}">个人信息</a></li>
+            {#            <li>#}
+            {#                <a class="" href="">我的收藏</a>#}
+            {#            </li>#}
+            <li>
+                <a class="" href="{{ url_for('auth.user_comments') }}">我的评论</a>
+            </li>
+        </ul>
+    </aside>
+{% endblock menus %}
+
+{% block member %}
+    <div>
+        {#        <template>#}
+        {#        <b-tabs>#}
+
+        {#            <p label="个人信息" icon="account-outline">#}
+        <h2>个人信息</h2>
+        <div class="columns is-mobile" style="border-bottom: #ededed solid 1px; padding-bottom: 1rem">
+            <div class="column is-narrow">
+                <figure class="image is-96x96">
+                    <img class="is-rounded" src="/static/img/{{ g.user.avatar }}">
+                </figure>
+            </div>
+            <div class="column is-narrow">
+                <div style="padding-top: 1.5rem;">
+                    <h1 class="title is-size-4">{{ g.user.username }}</h1>
+                    <p class="subtitle is-size-6">暂未设置个性签名</p>
+                </div>
+            </div>
+            <div class="column is-narrow-mobile">
+                <a class=" button is-light is-pulled-right" href="{{ url_for('auth.user_edit') }}"
+                   style="margin-top: 1.8rem">修改信息</a>
+            </div>
+        </div>
+
+        <div class="columns" style="padding:1rem 0; ">
+            <div class="column is-2">
+                <p>个人信息</p>
+            </div>
+            <div class="column">
+                <div class="columns is-mobile" style="border-bottom: #ededed solid 1px">
+                    <div class="column is-2">
+                        <span class=" has-text-grey-light">用户名</span>
+                    </div>
+                    <div class="column is-narrow">
+                        <span class=" has-text-black-ter">{{ g.user.username }}</span>
+                    </div>
+                </div>
+                <div class="columns is-mobile" style="border-bottom: #ededed solid 1px">
+                    <div class="column is-2">
+                        <span class=" has-text-grey-light">性别</span>
+                    </div>
+                    <div class="column is-narrow">
+                        <span class=" has-text-black-ter">
+                        {% if g.user.gender == 'man' %}
+                            男
+                        {% elif g.user.gender == None %}
+                            暂未设置
+                        {% else %}
+                            女
+                        {% endif %}
+                        </span>
+                    </div>
+
+                </div>
+                <div class="columns is-mobile" style="border-bottom: #ededed solid 1px">
+                    <div class="column is-2">
+                        <span class=" has-text-grey-light">邮箱</span>
+                    </div>
+                    <div class="column is-narrow">
+                        <span class=" has-text-black-ter">
+                                                    {% if g.user.email == None %}
+                                                        暂未设置
+                                                    {% else %}
+                                                        {{ g.user.email }}
+                                                    {% endif %}
+
+                        </span>
+                    </div>
+
+                </div>
+
+                <div class="columns is-mobile" style="border-bottom: #ededed solid 1px">
+                    <div class="column is-2">
+                        <span class=" has-text-grey-light">地址</span>
+                    </div>
+                    <div class="column is-narrow">
+                        <span class=" has-text-black-ter">
+                                                                            {% if g.user.address == None %}
+                                                                                暂未设置
+                                                                            {% else %}
+                                                                                {{ g.user.address }}
+                                                                            {% endif %}
+
+                        </span>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="columns" style="padding:1rem 0; ">
+            <div class="column is-2">
+                <p>个人简介</p>
+            </div>
+            <div class="column">
+                <div class="content">
+                    {% if g.user.signature == None %}
+                        暂未设置
+                    {% else %}
+                        {{ g.user.signature }}
+                    {% endif %}
+
+                </div>
+            </div>
+        </div>
+
+        {#            </p>#}
+        {#        </b-tabs>#}
+        {#        </template>#}
+    </div>
+{% endblock member %}

@@ -1,0 +1,53 @@
+{% extends 'img_change.html' %}
+
+{% block button %}{% endblock button %}
+
+
+{% block table_content %}
+    <form action="" method="post" class="mt-4" enctype="multipart/form-data">
+        {{ form.csrf_token }}
+
+        <div class="field">
+            {{ form.img.label(class='label') }}
+            <div class="control">
+                {{ form.img(class='input',  placeholder='图片') }}
+                <p class="help has-text-grey-light">
+{#                    {{ form.desc }}#}
+                </p>
+{#                {% if img_info.img %}#}
+{#                    <figure class="image is-48x48">#}
+{#                        <img class="is-rounded" src="/static/img/{{ img_info.img }}"#}
+{#                             alt="{{ img_info.desc }}">#}
+{#                    </figure>#}
+{#                {% else %}#}
+{#                    -#}
+{#                {% endif %}#}
+            </div>
+        </div>
+
+
+        <div class="field">
+            {{ form.desc.label(class='label') }}
+            <div class="control">
+                {{ form.desc(class='input', placeholder='desc') }}
+            </div>
+        </div>
+        <div class="field">
+            {{ form.url.label(class='label') }}
+            <div class="control">
+                {{ form.url(class='input', placeholder='url') }}
+            </div>
+        </div>
+
+
+        <div class="is-block">
+            <div class="box has-background-light is-shadowless level">
+                <button class=" is-danger button level-left">删除</button>
+                <div class="level-right">
+                    <a href="{{ url_for('admin.img_change') }}" class="button is-primary is-light mr-2">返回</a>
+                    <input type="submit" value="保存" class=" button is-success">
+                </div>
+            </div>
+        </div>
+    </form>
+{% endblock table_content %} 

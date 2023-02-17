@@ -1,0 +1,123 @@
+{% extends 'admin_index.html' %}
+{% block extra_head_style %}
+    <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+{% endblock extra_head_style %}
+
+{% block member %}
+    <div class="is-block">
+        <div class=" is-pulled-left">
+            <h1 class=" is-size-4">
+            <span class="icon">
+                <i class="mdi mdi-file-document-multiple-outline"></i>
+            </span>
+                文章管理
+            </h1>
+        </div>
+        {% block button %}
+            <div class="is-pulled-right">
+                <a href="{{ url_for('admin.article_add') }}" class=" button is-primary is-light">
+                    <span class="icon"><i class="mdi mdi-plus-thick"></i></span>
+                    <span>添加文章</span>
+                </a>
+            </div>
+        {% endblock button %}
+        <div class="is-clearfix"></div>
+        <div class=" dropdown-divider"></div>
+
+        <!-- 消息闪现 -->
+        {% with messages = get_flashed_messages() %}
+            <b-message type="is-success">
+                {% if messages %}
+                    <ul class=flashes>
+                        {% for message in messages %}
+                            <li>{{ message }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            </b-message>
+        {% endwith %}
+    </div>
+    {% block table_content %}
+        <div class="table-container">
+            <table class="table is-fullwidth is-hoverable is-striped">
+                {% for comment in comment_list %}
+
+                    <thead>
+                    <tr>
+                        {#                        {{ comment.user.username }}于{{ comment.add_date }}对文章{{ comment.post.title }}发表如下评论#}
+                        {#                        {{ comment.content }}#}
+                    </tr>
+                    </thead>
+                    <tbody>
+
+
+                    <td>
+                        <p class="small">您于{{ comment.add_date }}对文章{{ comment.post.title }}发表如下评论
+                        </p>
+                        <p>{{ comment.content }}</p>
+                    </td>
+                    {#                        <td>{{ post.id }}</td>#}
+                    {#                        <td>{{ post.title }}</td>#}
+                    {#                        <td>{{ post.has_type.name }}</td>#}
+                    {#                        <td>{{ post.category.name }}</td>#}
+                    {#                        <td>{{ post.tags|join(',') }} </td>#}
+                    {#                        <td>{{ post.add_date }}</td>#}
+                    <td>
+                        <div class="tags">
+                            <a href="{{ url_for('auth.comment_post',comment_id = comment.id) }}"
+                               class="tag is-success is-light">
+                            <span class="icon">
+                                <i class="mdi mdi-square-edit-outline"></i>
+                            </span>
+                                查看该文章
+                            </a>
+                            <a href="{{ url_for('auth.comment_del',comment_id = comment.id) }}"
+                               class="tag is-danger is-light">
+                            <span class="icon">
+                                <i class="mdi mdi-trash-can-outline"></i>
+                            </span>
+                                删除
+                            </a>
+                        </div>
+                    </td>
+                    </tr>
+                {% endfor %}
+
+                </tbody>
+            </table>
+        </div>
+
+        <nav class="pagination is-small" role="navigation" aria-label="pagination">
+            {% if pagination.has_prev %}
+                <a href="{{ url_for('auth.user_comments') }}?page={{ pagination.prev_num }}" class="pagination-previous"
+                   title="This is the first page">Previous</a>
+            {% endif %}
+            {% if pagination.has_next %}
+                <a href="{{ url_for('auth.user_comments') }}?page={{ pagination.next_num }}" class="pagination-next">Next
+                    page</a>
+            {% endif %}
+
+            <ul class="pagination-list">
+                {% for page in pagination.iter_pages() %}
+                    {% if page %}
+                        {% if page != pagination.page %}
+                            <li>
+                                <a href="{{ url_for('auth.user_comments') }}?page={{ page }}" class="pagination-link"
+                                   aria-label="Page 1" aria-current="page">{{ page }}</a>
+                            </li>
+                        {% else %}
+                            <li>
+                                <a class="pagination-link is-current" aria-label="Page 1"
+                                   aria-current="page">{{ page }}</a>
+                            </li>
+                        {% endif %}
+                    {% else %}
+                        <span class=pagination-ellipsis>&hellip;</span>
+                    {% endif %}
+                {% endfor %}
+
+            </ul>
+        </nav>
+    {% endblock table_content %}
+{% endblock member %}

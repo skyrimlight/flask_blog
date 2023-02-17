@@ -1,0 +1,212 @@
+{% extends 'admin_index.html' %}
+{% with messages = get_flashed_messages() %}
+    <b-message type="is-danger">
+        {% if messages %}
+            <ul class=flashes>
+                {% for message in messages %}
+                    <li>{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    </b-message>
+{% endwith %}
+{% block member %}
+    <div class="is-block">
+        <div class=" is-pulled-left">
+            <h1 class=" is-size-4">
+            <span class="icon">
+                <i class="mdi mdi-receipt-outline"></i>
+            </span>
+                分类管理
+            </h1>
+        </div>
+
+        {% block button %}
+            <div class=" is-pulled-right">
+                <a href="{{ url_for('admin.category_add') }}" class=" button is-primary is-light">
+                    <span class="icon"><i class="mdi mdi-plus-thick"></i></span>
+                    <span>添加分类</span>
+                </a>
+            </div>
+            <!-- Button trigger modal -->
+
+
+            {#            <div class=" is-pulled-right">#}
+            {#                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">#}
+            {#                    添加分类#}
+            {#                </button>#}
+            {#            </div>#}
+            {##}
+            {##}
+            {#            <!-- Modal -->#}
+            {#            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"#}
+            {#                 aria-hidden="true">#}
+            {#                <div class="modal-dialog">#}
+            {#                    <div class="modal-content">#}
+            {#                        <div class="modal-header">#}
+            {#                            <h5 class="modal-title" id="exampleModalLabel">添加分类</h5>#}
+            {#                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">#}
+            {#                                <span aria-hidden="true">&times;</span>#}
+            {#                            </button>#}
+            {#                        </div>#}
+            {#                        <div class="modal-body">#}
+            {#                            <form id="category_add" method="post">#}
+            {#                                <p class="control has-icons-left">#}
+            {#                                    <input class="input" type="text" name="category_name" maxlength="128"#}
+            {#                                           placeholder="请输入名称">#}
+            {#                                </p>#}
+            {#                                <p class="control has-icons-left">#}
+            {#                                    <input class="input" type="file" name="category_icon">#}
+            {#                                <input class="input" type="text" name="category_icon" maxlength="128"#}
+            {#                                       placeholder="请输入名称">#}
+            {#                                </p>#}
+            {#                            </form>#}
+            {##}
+            {#                        </div>#}
+            {#                        <div class="modal-footer">#}
+            {#                            <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>#}
+            {#                            <button type="button" class="btn btn-primary" id="footer_save">保存</button>#}
+            {#                        </div>#}
+            {#                    </div>#}
+            {#                </div>#}
+            {#            </div>#}
+        {% endblock button %}
+        <div class="is-clearfix"></div>
+        <div class=" dropdown-divider"></div>
+
+        <!-- 消息闪现 -->
+        {% with messages = get_flashed_messages() %}
+            <b-message type="is-success">
+                {% if messages %}
+                    <ul class=flashes>
+                        {% for message in messages %}
+                            <li>{{ message }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            </b-message>
+        {% endwith %}
+    </div>
+
+    {% block table_content %}
+        <div class="table-container">
+            <table class="table is-fullwidth is-hoverable is-striped">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>分类名称</th>
+                    <th>分类图标</th>
+                    <th>发布日期</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody>
+
+                {% for cate in category_list %}
+                    <tr>
+                        <td>{{ cate.id }}</td>
+                        <td>{{ cate.name }}</td>
+                        <td>{{ cate.icon }}</td>
+                        <td>{{ cate.add_date }}</td>
+                        <td>
+                            <div class="tags">
+                                <a href="{{ url_for('admin.category_edit',nid=cate.id) }}"
+                                   class="btn btn-primary">
+                                    编辑
+                                </a>
+                                {#                                <a href="" class="tag is-danger is-light">#}
+                                {#                            <span class="icon">#}
+                                {#                                <i class="mdi mdi-trash-can-outline"></i>#}
+                                {#                            </span>#}
+                                {#                                    删除#}
+                                {#                                </a>#}
+                                <!-- Button trigger modal -->
+                                <a href="{{ url_for('admin.category_delete',nid=cate.id) }}"
+                                   class="btn btn-primary">
+                                    删除
+                                </a>
+
+                                {#                                <!-- Modal -->#}
+                                {#                                <div class="modal fade" id="exampleModal" tabindex="-1"#}
+                                {#                                     aria-labelledby="exampleModalLabel" aria-hidden="true">#}
+                                {#                                    <div class="modal-dialog">#}
+                                {#                                        <div class="modal-content">#}
+                                {#                                            <div class="modal-header">#}
+                                {#                                                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>#}
+                                {#                                                <button type="button" class="close" data-dismiss="modal"#}
+                                {#                                                        aria-label="Close">#}
+                                {#                                                    <span aria-hidden="true">&times;</span>#}
+                                {#                                                </button>#}
+                                {#                                            </div>#}
+                                {#                                            <div class="modal-body">#}
+                                {#                                                ...#}
+                                {#                                            </div>#}
+                                {#                                            <div class="modal-footer">#}
+                                {#                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">#}
+                                {#                                                    Close#}
+                                {#                                                </button>#}
+                                {#                                                <button type="button" class="btn btn-primary">Save changes</button>#}
+                                {#                                            </div>#}
+                                {#                                        </div>#}
+                                {#                                    </div>#}
+                                {#                                </div>#}
+                            </div>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <nav class="pagination is-small" role="navigation" aria-label="pagination">
+            {% if pagination.has_prev %}
+                <a href="{{ url_for('admin.category') }}?page={{ pagination.prev_num }}" class="pagination-previous"
+                   title="This is the first page">Previous</a>
+            {% endif %}
+            {% if pagination.has_next %}
+                <a href="{{ url_for('admin.category') }}?page={{ pagination.next_num }}" class="pagination-next">Next
+                    page</a>
+            {% endif %}
+
+            <ul class="pagination-list">
+                {% for page in pagination.iter_pages() %}
+                    {% if page %}
+                        {% if page != pagination.page %}
+                            <li>
+                                <a href="{{ url_for('admin.category') }}?page={{ page }}" class="pagination-link"
+                                   aria-label="Page 1" aria-current="page">{{ page }}</a>
+                            </li>
+                        {% else %}
+                            <li>
+                                <a class="pagination-link is-current" aria-label="Page 1"
+                                   aria-current="page">{{ page }}</a>
+                            </li>
+                        {% endif %}
+                    {% else %}
+                        <span class=pagination-ellipsis>&hellip;</span>
+                    {% endif %}
+                {% endfor %}
+
+            </ul>
+        </nav>
+
+    {% endblock table_content %}
+{% endblock member %}
+{% block script %}
+    <script type="text/javascript">
+        $(function () {
+            $("#footer_save").click(function () {
+                $("#exampleModal").modal('hide');
+                $.ajax({
+                    url: '/admin/category/add',
+                    type: "post",
+                    data: $("#category_add").serialize(), dataType: "JSON",
+                    success: function (res) {
+                        console.log(res)
+                    }
+                })
+            })
+        })
+
+    </script>
+{% endblock script %}
