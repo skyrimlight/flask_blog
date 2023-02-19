@@ -1,5 +1,6 @@
 from flask import Flask, Blueprint, render_template, url_for, g, request, redirect, flash
 from flask_sqlalchemy import pagination
+from flaskBlog.exts import cache
 from flaskBlog.exts import db
 from flaskBlog.until.get_md5 import get_md5
 from flaskBlog.views.auth import login_required
@@ -369,5 +370,3 @@ def comment():
     pagination = Comment.query.order_by(-Comment.add_date).paginate(page=page, per_page=5)
     comment_list = pagination.items
     return render_template('comment.html', pagination=pagination, comment_list=comment_list)
-
-

@@ -1,16 +1,20 @@
 from flask import request, render_template, Blueprint, session, redirect, url_for, g, flash
 import random
-from flaskBlog.exts import db
+from flaskBlog.exts import db, cache
 from flaskBlog.models import Blog_User, Post, Category, Tag, Comment, Banner
 from flaskBlog.views.auth import login_required
 from flaskBlog.views.forms import CommentForm
 import requests
+import time
 
 bg = Blueprint('blog', __name__, url_prefix='/blog')
 
 
 @bg.route('/index')
+@cache.cached(timeout=50)
 def index():  # put application's code here
+    # for i in range(10):
+    #     time.sleep(0.5)
     page = request.args.get('page', 1, type=int)
     pagination = Post.query.order_by(-Post.add_date).paginate(page=page, per_page=3)
     post_list = pagination.items
